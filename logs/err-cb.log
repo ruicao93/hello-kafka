@@ -1,0 +1,91 @@
+(gdb) py-bt
+Traceback (most recent call first):
+  <built-in method sleep of module object at remote 0x7f46ea89ab30>
+  File "test_kafka.py", line 17, in err_callback
+    time.sleep(100000000)
+  <built-in method consume of cimpl.Consumer object at remote 0x7f46ea740540>
+  File "test_kafka.py", line 49, in poll_message
+    msgs = c.consume(num_messages=1, timeout=2)
+  File "test_kafka.py", line 94, in poll
+    run = poll_message(c)
+  File "test_kafka.py", line 367, in <module>
+(gdb) bt
+#0  0x00007f46eb478ffb in __GI___select (nfds=nfds@entry=0, readfds=readfds@entry=0x0, writefds=writefds@entry=0x0, exceptfds=exceptfds@entry=0x0, timeout=timeout@entry=0x7ffdc4f359a0)
+    at ../sysdeps/unix/sysv/linux/select.c:41
+#1  0x000000000062031e in pysleep (secs=<optimized out>) at ../Modules/timemodule.c:1866
+#2  time_sleep (self=<optimized out>, obj=<optimized out>) at ../Modules/timemodule.c:338
+#3  0x00000000005c64c0 in cfunction_vectorcall_O (func=<built-in method sleep of module object at remote 0x7f46ea89ab30>, args=<optimized out>, nargsf=<optimized out>, kwnames=<optimized out>)
+    at ../Objects/methodobject.c:482
+#4  0x0000000000570b26 in _PyObject_Vectorcall (kwnames=0x0, nargsf=<optimized out>, args=0x7f46ea73a840, callable=<built-in method sleep of module object at remote 0x7f46ea89ab30>)
+    at ../Include/cpython/abstract.h:127
+#5  call_function (kwnames=0x0, oparg=<optimized out>, pp_stack=<synthetic pointer>, tstate=0x967f00) at ../Python/ceval.c:4963
+#6  _PyEval_EvalFrameDefault (f=<optimized out>, throwflag=<optimized out>) at ../Python/ceval.c:3469
+#7  0x00000000005f6cd6 in PyEval_EvalFrameEx (throwflag=0, f=Frame 0x7f46ea73a6c0, for file test_kafka.py, line 17, in err_callback (err=cimpl.KafkaError0x0)) at ../Python/ceval.c:741
+#8  function_code_fastcall (globals=<optimized out>, nargs=<optimized out>, args=<optimized out>, co=<optimized out>) at ../Objects/call.c:284
+#9  _PyFunction_Vectorcall (func=<optimized out>, stack=<optimized out>, nargsf=<optimized out>, kwnames=<optimized out>) at ../Objects/call.c:411
+#10 0x00000000005f4cc1 in _PyObject_Vectorcall (kwnames=0x0, nargsf=1, args=0x7ffdc4f35bb0, callable=<function at remote 0x7f46ea73cdc0>) at ../Include/cpython/abstract.h:127
+#11 _PyObject_FastCall (nargs=1, args=0x7ffdc4f35bb0, func=<function at remote 0x7f46ea73cdc0>) at ../Include/cpython/abstract.h:147
+#12 object_vacall (base=<optimized out>, callable=<function at remote 0x7f46ea73cdc0>, vargs=<optimized out>) at ../Objects/call.c:1187
+#13 0x00000000005f4f85 in PyObject_CallFunctionObjArgs (callable=<optimized out>) at ../Objects/call.c:1260
+#14 0x00007f46ea6ab6e5 in error_cb (rk=0xa24140, err=<optimized out>, reason=0x7f46d40038a0 "3/3 brokers are down", opaque=0x7f46ea740540) at confluent_kafka/src/confluent_kafka.c:1239
+#15 0x00007f46ea57eb5d in rd_kafka_poll_cb (rk=rk@entry=0xa24140, rkq=rkq@entry=0xa05bf0, rko=rko@entry=0x7f46d4004330, cb_type=cb_type@entry=RD_KAFKA_Q_CB_RETURN, opaque=opaque@entry=0x0)
+    at rdkafka.c:3390
+#16 0x00007f46ea5b39fb in rd_kafka_q_serve_rkmessages (rkq=0xa05bf0, timeout_ms=<optimized out>, rkmessages=rkmessages@entry=0xa29ab0, rkmessages_size=rkmessages_size@entry=1) at rdkafka_queue.c:574
+#17 0x00007f46ea57a330 in rd_kafka_consume_batch0 (rkmessages_size=1, rkmessages=0xa29ab0, timeout_ms=<optimized out>, rkq=<optimized out>) at rdkafka.c:2595
+#18 rd_kafka_consume_batch_queue (rkqu=rkqu@entry=0x979e50, timeout_ms=<optimized out>, rkmessages=rkmessages@entry=0xa29ab0, rkmessages_size=rkmessages_size@entry=1) at rdkafka.c:2595
+#19 0x00007f46ea6ae1d9 in Consumer_consume (self=0x7f46ea740540, args=<optimized out>, kwargs=<optimized out>) at confluent_kafka/src/Consumer.c:942
+#20 0x00000000005f6929 in cfunction_call_varargs (kwargs=<optimized out>, args=<optimized out>, func=<built-in method consume of cimpl.Consumer object at remote 0x7f46ea740540>) at ../Objects/call.c:773
+#21 PyCFunction_Call (func=<built-in method consume of cimpl.Consumer object at remote 0x7f46ea740540>, args=<optimized out>, kwargs=<optimized out>) at ../Objects/call.c:773
+--Type <RET> for more, q to quit, c to continue without paging--
+#22 0x00000000005f74f6 in _PyObject_MakeTpCall (callable=<built-in method consume of cimpl.Consumer object at remote 0x7f46ea740540>, args=<optimized out>, nargs=<optimized out>,
+    keywords=<optimized out>) at ../Include/internal/pycore_pyerrors.h:13
+#23 0x000000000057164c in _PyObject_Vectorcall (kwnames=('num_messages', 'timeout'), nargsf=<optimized out>, args=<optimized out>,
+    callable=<built-in method consume of cimpl.Consumer object at remote 0x7f46ea740540>) at ../Include/cpython/abstract.h:125
+#24 _PyObject_Vectorcall (kwnames=('num_messages', 'timeout'), nargsf=<optimized out>, args=<optimized out>, callable=<built-in method consume of cimpl.Consumer object at remote 0x7f46ea740540>)
+    at ../Include/cpython/abstract.h:115
+#25 call_function (kwnames=('num_messages', 'timeout'), oparg=<optimized out>, pp_stack=<synthetic pointer>, tstate=<optimized out>) at ../Python/ceval.c:4963
+#26 _PyEval_EvalFrameDefault (f=<optimized out>, throwflag=<optimized out>) at ../Python/ceval.c:3515
+#27 0x00000000005f6cd6 in PyEval_EvalFrameEx (throwflag=0, f=Frame 0x7f46ea7647c0, for file test_kafka.py, line 49, in poll_message (csm=<cimpl.Consumer at remote 0x7f46ea740540>))
+    at ../Python/ceval.c:741
+#28 function_code_fastcall (globals=<optimized out>, nargs=<optimized out>, args=<optimized out>, co=<optimized out>) at ../Objects/call.c:284
+#29 _PyFunction_Vectorcall (func=<optimized out>, stack=<optimized out>, nargsf=<optimized out>, kwnames=<optimized out>) at ../Objects/call.c:411
+#30 0x000000000056bacd in _PyObject_Vectorcall (kwnames=0x0, nargsf=<optimized out>, args=0x7f46ea73d3a0, callable=<function at remote 0x7f46ea73cee0>) at ../Include/cpython/abstract.h:127
+#31 call_function (kwnames=0x0, oparg=<optimized out>, pp_stack=<synthetic pointer>, tstate=0x967f00) at ../Python/ceval.c:4963
+#32 _PyEval_EvalFrameDefault (f=<optimized out>, throwflag=<optimized out>) at ../Python/ceval.c:3500
+#33 0x00000000005f6cd6 in PyEval_EvalFrameEx (throwflag=0,
+    f=Frame 0x7f46ea73d210, for file test_kafka.py, line 94, in poll (last_offset=<cimpl.TopicPartition at remote 0x7f46ea6c9500>, msgs=[], tpc=[<cimpl.TopicPartition at remote 0x7f46ea6c9540>], run=True)) at ../Python/ceval.c:741
+#34 function_code_fastcall (globals=<optimized out>, nargs=<optimized out>, args=<optimized out>, co=<optimized out>) at ../Objects/call.c:284
+#35 _PyFunction_Vectorcall (func=<optimized out>, stack=<optimized out>, nargsf=<optimized out>, kwnames=<optimized out>) at ../Objects/call.c:411
+#36 0x000000000056bacd in _PyObject_Vectorcall (kwnames=0x0, nargsf=<optimized out>, args=0x7f46ea82a7b0, callable=<function at remote 0x7f46ea73cf70>) at ../Include/cpython/abstract.h:127
+#37 call_function (kwnames=0x0, oparg=<optimized out>, pp_stack=<synthetic pointer>, tstate=0x967f00) at ../Python/ceval.c:4963
+#38 _PyEval_EvalFrameDefault (f=<optimized out>, throwflag=<optimized out>) at ../Python/ceval.c:3500
+#39 0x0000000000569dba in PyEval_EvalFrameEx (throwflag=0, f=Frame 0x7f46ea82a640, for file test_kafka.py, line 367, in <module> ()) at ../Python/ceval.c:741
+#40 _PyEval_EvalCodeWithName (_co=<optimized out>, globals=<optimized out>, locals=<optimized out>, args=<optimized out>, argcount=<optimized out>, kwnames=<optimized out>, kwargs=0x0,
+    kwcount=<optimized out>, kwstep=2, defs=0x0, defcount=0, kwdefs=0x0, closure=0x0, name=0x0, qualname=0x0) at ../Python/ceval.c:4298
+--Type <RET> for more, q to quit, c to continue without paging--
+#41 0x00000000006902a7 in PyEval_EvalCodeEx (closure=0x0, kwdefs=0x0, defcount=0, defs=0x0, kwcount=0, kws=0x0, argcount=0, args=0x0, locals=<optimized out>, globals=<optimized out>,
+    _co=<optimized out>) at ../Python/ceval.c:4327
+#42 PyEval_EvalCode (co=<optimized out>, globals=<optimized out>, locals=<optimized out>) at ../Python/ceval.c:718
+#43 0x000000000067f951 in run_eval_code_obj (co=0x7f46ea76e240,
+
+    globals={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_kafka.py') at remote 0x7f46ea84b0d0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7f46ea8b40e0>, '__file__': 'test_kafka.py', '__cached__': None, 'signal': <module at remote 0x7f46ea71f590>, 'sys': <module at remote 0x7f46ea8a8e00>, 'time': <module at remote 0x7f46ea89ab30>, 'confluent_kafka': <module at remote 0x7f46ea71f770>, 'Consumer': <type at remote 0x7f46ea6be460>, 'KafkaError': <type at remote 0x7f46ea6bde40>, 'on_assign': <function at remote 0x7f46ea8981f0>, 'err_callback': <function at remote 0x7f46ea73cdc0>, 'c': <cimpl.Consumer at remote 0x7f46ea740540>, 'topic': 'quickstart', 'partition': 0, 'close': False, 'close_consumer': <function at remote 0x7f46ea73ce50>, 'poll_message': <function at remote 0x7f46ea73cee0>, 'poll': <function at remote 0x7f46ea73cf70>, 'signal_handler': <function at remote 0x7f46ea6ca040>},
+    locals={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_kafka.py') at remote 0x7f46ea84b0d0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7f46ea8b40e0>, '__file__': 'test_kafka.py', '__cached__': None, 'signal': <module at remote 0x7f46ea71f590>, 'sys': <module at remote 0x7f46ea8a8e00>, 'time': <module at remote 0x7f46ea89ab30>, 'confluent_kafka': <module at remote 0x7f46ea71f770>, 'Consumer': <type at remote 0x7f46ea6be460>, 'KafkaError': <type at remote 0x7f46ea6bde40>, 'on_assign': <function at remote 0x7f46ea8981f0>, 'err_callback': <function at remote 0x7f46ea73cdc0>, 'c': <cimpl.Consumer at remote 0x7f46ea740540>, 'topic': 'quickstart', 'partition': 0, 'close': False, 'close_consumer': <function at remote 0x7f46ea73ce50>, 'poll_message': <function at remote 0x7f46ea73cee0>, 'poll': <function at remote 0x7f46ea73cf70>, 'signal_handler': <function at remote 0x7f46ea6ca040>})
+    at ../Python/pythonrun.c:1166
+
+#44 0x000000000067f9cf in run_mod (mod=<optimized out>, filename=<optimized out>,
+    globals={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_kafka.py') at remote 0x7f46ea84b0d0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7f46ea8b40e0>, '__file__': 'test_kafka.py', '__cached__': None, 'signal': <module at remote 0x7f46ea71f590>, 'sys': <module at remote 0x7f46ea8a8e00>, 'time': <module at remote 0x7f46ea89ab30>, 'confluent_kafka': <module at remote 0x7f46ea71f770>, 'Consumer': <type at remote 0x7f46ea6be460>, 'KafkaError': <type at remote 0x7f46ea6bde40>, 'on_assign': <function at remote 0x7f46ea8981f0>, 'err_callback': <function at remote 0x7f46ea73cdc0>, 'c': <cimpl.Consumer at remote 0x7f46ea740540>, 'topic': 'quickstart', 'partition': 0, 'close': False, 'close_consumer': <function at remote 0x7f46ea73ce50>, 'poll_message': <function at remote 0x7f46ea73cee0>, 'poll': <function at remote 0x7f46ea73cf70>, 'signal_handler': <function at remote 0x7f46ea6ca040>},
+    locals={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_kafka.py') at remote 0x7f46ea84b0d0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7f46ea8b40e0>, '__file__': 'test_kafka.py', '__cached__': None, 'signal': <module at remote 0x7f46ea71f590>, 'sys': <module at remote 0x7f46ea8a8e00>, 'time': <module at remote 0x7f46ea89ab30>, 'confluent_kafka': <module at remote 0x7f46ea71f770>, 'Consumer': <type at remote 0x7f46ea6be460>, 'KafkaError': <type at remote 0x7f46ea6bde40>, 'on_assign': <function at remote 0x7f46ea8981f0>, 'err_callback': <function at remote 0x7f46ea73cdc0>, 'c': <cimpl.Consumer at remote 0x7f46ea740540>, 'topic': 'quickstart', 'partition': 0, 'close': False, 'close_consumer': <function at remote 0x7f46ea73ce50>, 'poll_message': <function at remote 0x7f46ea73cee0>, 'poll': <function at remote 0x7f46ea73cf70>, 'signal_handler': <function at remote 0x7f46ea6ca040>},
+--Type <RET> for more, q to quit, c to continue without paging--
+    flags=<optimized out>, arena=<optimized out>) at ../Python/pythonrun.c:1188
+#45 0x000000000067fa71 in pyrun_file (fp=fp@entry=0x966b80, filename=filename@entry='test_kafka.py', start=start@entry=257,
+    globals=globals@entry={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_kafka.py') at remote 0x7f46ea84b0d0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7f46ea8b40e0>, '__file__': 'test_kafka.py', '__cached__': None, 'signal': <module at remote 0x7f46ea71f590>, 'sys': <module at remote 0x7f46ea8a8e00>, 'time': <module at remote 0x7f46ea89ab30>, 'confluent_kafka': <module at remote 0x7f46ea71f770>, 'Consumer': <type at remote 0x7f46ea6be460>, 'KafkaError': <type at remote 0x7f46ea6bde40>, 'on_assign': <function at remote 0x7f46ea8981f0>, 'err_callback': <function at remote 0x7f46ea73cdc0>, 'c': <cimpl.Consumer at remote 0x7f46ea740540>, 'topic': 'quickstart', 'partition': 0, 'close': False, 'close_consumer': <function at remote 0x7f46ea73ce50>, 'poll_message': <function at remote 0x7f46ea73cee0>, 'poll': <function at remote 0x7f46ea73cf70>, 'signal_handler': <function at remote 0x7f46ea6ca040>},
+    locals=locals@entry={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_kafka.py') at remote 0x7f46ea84b0d0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7f46ea8b40e0>, '__file__': 'test_kafka.py', '__cached__': None, 'signal': <module at remote 0x7f46ea71f590>, 'sys': <module at remote 0x7f46ea8a8e00>, 'time': <module at remote 0x7f46ea89ab30>, 'confluent_kafka': <module at remote 0x7f46ea71f770>, 'Consumer': <type at remote 0x7f46ea6be460>, 'KafkaError': <type at remote 0x7f46ea6bde40>, 'on_assign': <function at remote 0x7f46ea8981f0>, 'err_callback': <function at remote 0x7f46ea73cdc0>, 'c': <cimpl.Consumer at remote 0x7f46ea740540>, 'topic': 'quickstart', 'partition': 0, 'close': False, 'close_consumer': <function at remote 0x7f46ea73ce50>, 'poll_message': <function at remote 0x7f46ea73cee0>, 'poll': <function at remote 0x7f46ea73cf70>, 'signal_handler': <function at remote 0x7f46ea6ca040>}, closeit=closeit@entry=1, flags=0x7ffdc4f367a8) at ../Python/pythonrun.c:1085
+#46 0x0000000000681b97 in pyrun_simple_file (flags=0x7ffdc4f367a8, closeit=1, filename='test_kafka.py', fp=0x966b80) at ../Python/pythonrun.c:439
+#47 PyRun_SimpleFileExFlags (fp=0x966b80, filename=<optimized out>, closeit=1, flags=0x7ffdc4f367a8) at ../Python/pythonrun.c:472
+#48 0x00000000006b9d32 in pymain_run_file (cf=0x7ffdc4f367a8, config=0x9672d0) at ../Modules/main.c:385
+#49 pymain_run_python (exitcode=0x7ffdc4f367a0) at ../Modules/main.c:610
+#50 Py_RunMain () at ../Modules/main.c:689
+#51 0x00000000006ba0bd in Py_BytesMain (argc=<optimized out>, argv=<optimized out>) at ../Modules/main.c:743
+#52 0x00007f46eb3880b3 in __libc_start_main (main=0x4efd60 <main>, argc=2, argv=0x7ffdc4f36988, init=<optimized out>, fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7ffdc4f36978)
+    at ../csu/libc-start.c:308
+#53 0x00000000005fc5fe in _start () at ../Objects/obmalloc.c:1247

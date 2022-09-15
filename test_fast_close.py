@@ -22,10 +22,10 @@ c = Consumer({
     'bootstrap.servers': '127.0.0.1:9092',
     'group.id': 'testgroup',
     'enable.auto.commit': 'false',
-    'auto.offset.reset': 'earliest',
-    'error_cb': err_callback,
+    'auto.offset.reset': 'earliest'
     # 'debug': 'topic,metadata,protocol,cgrp,consumer,broker'
 })
+
 
 topic = 'quickstart'
 partition = 0
@@ -102,6 +102,7 @@ def signal_handler(signum, frame):
     global close
     print('Signal handler called with signal', signum)
     close = True
+    close_consumer()
 
 
 if __name__ == '__main__':

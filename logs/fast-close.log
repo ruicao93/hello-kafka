@@ -1,0 +1,73 @@
+(gdb) bt
+#0  __pthread_clockjoin_ex (threadid=threadid@entry=140343640131328, thread_return=thread_return@entry=0x7ffd085a40d0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, block=block@entry=true)
+    at pthread_join_common.c:145
+#1  0x00007fa44e2feb1e in thrd_join (thr=thr@entry=140343640131328, res=res@entry=0x7ffd085a411c) at thrd_join.c:25
+#2  0x00007fa44d52a5dc in rd_kafka_destroy_app (rk=0x18a3f20, flags=<optimized out>, flags@entry=0) at rdkafka.c:1000
+#3  0x00007fa44d52acbb in rd_kafka_destroy (rk=<optimized out>) at rdkafka.c:1013
+#4  0x00007fa44d6569c0 in Consumer_close (self=0x7fa44d6e8540, ignore=ignore@entry=0x0) at confluent_kafka/src/Consumer.c:999
+#5  0x000000000050547b in method_vectorcall_NOARGS (func=<method_descriptor at remote 0x7fa44d66ae00>, args=0x7fa44d6c14d0, nargsf=<optimized out>, kwnames=<optimized out>)
+    at ../Objects/descrobject.c:393
+#6  0x000000000056bbfa in _PyObject_Vectorcall (kwnames=0x0, nargsf=<optimized out>, args=0x7fa44d6c14d0, callable=<method_descriptor at remote 0x7fa44d66ae00>) at ../Include/cpython/abstract.h:127
+#7  call_function (kwnames=0x0, oparg=<optimized out>, pp_stack=<synthetic pointer>, tstate=0x17e8000) at ../Python/ceval.c:4963
+#8  _PyEval_EvalFrameDefault (f=<optimized out>, throwflag=<optimized out>) at ../Python/ceval.c:3486
+#9  0x00000000005f6cd6 in PyEval_EvalFrameEx (throwflag=0, f=Frame 0x7fa44d6c1360, for file test_fast_close.py, line 42, in close_consumer ()) at ../Python/ceval.c:741
+#10 function_code_fastcall (globals=<optimized out>, nargs=<optimized out>, args=<optimized out>, co=<optimized out>) at ../Objects/call.c:284
+#11 _PyFunction_Vectorcall (func=<optimized out>, stack=<optimized out>, nargsf=<optimized out>, kwnames=<optimized out>) at ../Objects/call.c:411
+#12 0x000000000056bacd in _PyObject_Vectorcall (kwnames=0x0, nargsf=<optimized out>, args=0x7fa44d83bbe0, callable=<function at remote 0x7fa44d6e5e50>) at ../Include/cpython/abstract.h:127
+#13 call_function (kwnames=0x0, oparg=<optimized out>, pp_stack=<synthetic pointer>, tstate=0x17e8000) at ../Python/ceval.c:4963
+#14 _PyEval_EvalFrameDefault (f=<optimized out>, throwflag=<optimized out>) at ../Python/ceval.c:3500
+#15 0x00000000005f6cd6 in PyEval_EvalFrameEx (throwflag=0,
+    f=Frame 0x7fa44d83ba60, for file test_fast_close.py, line 105, in signal_handler (signum=2, frame=Frame 0x7fa44d6e4210, for file test_fast_close.py, line 79, in poll (last_offset=<cimpl.TopicPartition at remote 0x7fa44d671200>, msgs=[]))) at ../Python/ceval.c:741
+#16 function_code_fastcall (globals=<optimized out>, nargs=<optimized out>, args=<optimized out>, co=<optimized out>) at ../Objects/call.c:284
+#17 _PyFunction_Vectorcall (func=<optimized out>, stack=<optimized out>, nargsf=<optimized out>, kwnames=<optimized out>) at ../Objects/call.c:411
+#18 0x00000000005f6082 in PyVectorcall_Call (kwargs=<optimized out>, tuple=<optimized out>, callable=<function at remote 0x7fa44d672040>) at ../Objects/call.c:200
+#19 PyObject_Call (callable=<function at remote 0x7fa44d672040>, args=<optimized out>, kwargs=<optimized out>) at ../Objects/call.c:228
+#20 0x0000000000629808 in _PyErr_CheckSignals () at ../Modules/signalmodule.c:1710
+#21 0x00007fa44d653480 in CallState_end (h=h@entry=0x7fa44d6e8540, cs=cs@entry=0x7ffd085a46c0) at confluent_kafka/src/confluent_kafka.c:1902
+--Type <RET> for more, q to quit, c to continue without paging--
+#22 0x00007fa44d6561e7 in Consumer_consume (self=0x7fa44d6e8540, args=<optimized out>, kwargs=<optimized out>) at confluent_kafka/src/Consumer.c:947
+#23 0x00000000005f6929 in cfunction_call_varargs (kwargs=<optimized out>, args=<optimized out>, func=<built-in method consume of cimpl.Consumer object at remote 0x7fa44d6e8540>) at ../Objects/call.c:773
+#24 PyCFunction_Call (func=<built-in method consume of cimpl.Consumer object at remote 0x7fa44d6e8540>, args=<optimized out>, kwargs=<optimized out>) at ../Objects/call.c:773
+#25 0x00000000005f74f6 in _PyObject_MakeTpCall (callable=<built-in method consume of cimpl.Consumer object at remote 0x7fa44d6e8540>, args=<optimized out>, nargs=<optimized out>,
+    keywords=<optimized out>) at ../Include/internal/pycore_pyerrors.h:13
+#26 0x000000000057164c in _PyObject_Vectorcall (kwnames=('num_messages', 'timeout'), nargsf=<optimized out>, args=<optimized out>,
+    callable=<built-in method consume of cimpl.Consumer object at remote 0x7fa44d6e8540>) at ../Include/cpython/abstract.h:125
+#27 _PyObject_Vectorcall (kwnames=('num_messages', 'timeout'), nargsf=<optimized out>, args=<optimized out>, callable=<built-in method consume of cimpl.Consumer object at remote 0x7fa44d6e8540>)
+    at ../Include/cpython/abstract.h:115
+#28 call_function (kwnames=('num_messages', 'timeout'), oparg=<optimized out>, pp_stack=<synthetic pointer>, tstate=<optimized out>) at ../Python/ceval.c:4963
+#29 _PyEval_EvalFrameDefault (f=<optimized out>, throwflag=<optimized out>) at ../Python/ceval.c:3515
+#30 0x00000000005f6cd6 in PyEval_EvalFrameEx (throwflag=0, f=Frame 0x7fa44d6e4210, for file test_fast_close.py, line 79, in poll (last_offset=<cimpl.TopicPartition at remote 0x7fa44d671200>, msgs=[]))
+    at ../Python/ceval.c:741
+#31 function_code_fastcall (globals=<optimized out>, nargs=<optimized out>, args=<optimized out>, co=<optimized out>) at ../Objects/call.c:284
+#32 _PyFunction_Vectorcall (func=<optimized out>, stack=<optimized out>, nargsf=<optimized out>, kwnames=<optimized out>) at ../Objects/call.c:411
+#33 0x000000000056bacd in _PyObject_Vectorcall (kwnames=0x0, nargsf=<optimized out>, args=0x7fa44d7d27b0, callable=<function at remote 0x7fa44d6e5f70>) at ../Include/cpython/abstract.h:127
+#34 call_function (kwnames=0x0, oparg=<optimized out>, pp_stack=<synthetic pointer>, tstate=0x17e8000) at ../Python/ceval.c:4963
+#35 _PyEval_EvalFrameDefault (f=<optimized out>, throwflag=<optimized out>) at ../Python/ceval.c:3500
+#36 0x0000000000569dba in PyEval_EvalFrameEx (throwflag=0, f=Frame 0x7fa44d7d2640, for file test_fast_close.py, line 368, in <module> ()) at ../Python/ceval.c:741
+#37 _PyEval_EvalCodeWithName (_co=<optimized out>, globals=<optimized out>, locals=<optimized out>, args=<optimized out>, argcount=<optimized out>, kwnames=<optimized out>, kwargs=0x0,
+    kwcount=<optimized out>, kwstep=2, defs=0x0, defcount=0, kwdefs=0x0, closure=0x0, name=0x0, qualname=0x0) at ../Python/ceval.c:4298
+#38 0x00000000006902a7 in PyEval_EvalCodeEx (closure=0x0, kwdefs=0x0, defcount=0, defs=0x0, kwcount=0, kws=0x0, argcount=0, args=0x0, locals=<optimized out>, globals=<optimized out>,
+    _co=<optimized out>) at ../Python/ceval.c:4327
+#39 PyEval_EvalCode (co=<optimized out>, globals=<optimized out>, locals=<optimized out>) at ../Python/ceval.c:718
+#40 0x000000000067f951 in run_eval_code_obj (co=0x7fa44d6ae240,
+    globals={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_fast_close.py') at remote 0x7fa44d8834c0>, '__spec__': None, '__anno--Type <RET> for more, q to quit, c to continue without paging--
+tations__': {}, '__builtins__': <module at remote 0x7fa44d85c0e0>, '__file__': 'test_fast_close.py', '__cached__': None, 'signal': <module at remote 0x7fa44d6c76d0>, 'sys': <module at remote 0x7fa44d850e00>, 'time': <module at remote 0x7fa44d842b80>, 'confluent_kafka': <module at remote 0x7fa44d6c78b0>, 'Consumer': <type at remote 0x7fa44d666460>, 'KafkaError': <type at remote 0x7fa44d665e40>, 'on_assign': <function at remote 0x7fa44d83f1f0>, 'err_callback': <function at remote 0x7fa44d6e5dc0>, 'c': <cimpl.Consumer at remote 0x7fa44d6e8540>, 'topic': 'quickstart', 'partition': 0, 'close': True, 'close_consumer': <function at remote 0x7fa44d6e5e50>, 'poll_message': <function at remote 0x7fa44d6e5ee0>, 'poll': <function at remote 0x7fa44d6e5f70>, 'signal_handler': <function at remote 0x7fa44d672040>},
+    locals={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_fast_close.py') at remote 0x7fa44d8834c0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7fa44d85c0e0>, '__file__': 'test_fast_close.py', '__cached__': None, 'signal': <module at remote 0x7fa44d6c76d0>, 'sys': <module at remote 0x7fa44d850e00>, 'time': <module at remote 0x7fa44d842b80>, 'confluent_kafka': <module at remote 0x7fa44d6c78b0>, 'Consumer': <type at remote 0x7fa44d666460>, 'KafkaError': <type at remote 0x7fa44d665e40>, 'on_assign': <function at remote 0x7fa44d83f1f0>, 'err_callback': <function at remote 0x7fa44d6e5dc0>, 'c': <cimpl.Consumer at remote 0x7fa44d6e8540>, 'topic': 'quickstart', 'partition': 0, 'close': True, 'close_consumer': <function at remote 0x7fa44d6e5e50>, 'poll_message': <function at remote 0x7fa44d6e5ee0>, 'poll': <function at remote 0x7fa44d6e5f70>, 'signal_handler': <function at remote 0x7fa44d672040>})
+    at ../Python/pythonrun.c:1166
+#41 0x000000000067f9cf in run_mod (mod=<optimized out>, filename=<optimized out>,
+    globals={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_fast_close.py') at remote 0x7fa44d8834c0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7fa44d85c0e0>, '__file__': 'test_fast_close.py', '__cached__': None, 'signal': <module at remote 0x7fa44d6c76d0>, 'sys': <module at remote 0x7fa44d850e00>, 'time': <module at remote 0x7fa44d842b80>, 'confluent_kafka': <module at remote 0x7fa44d6c78b0>, 'Consumer': <type at remote 0x7fa44d666460>, 'KafkaError': <type at remote 0x7fa44d665e40>, 'on_assign': <function at remote 0x7fa44d83f1f0>, 'err_callback': <function at remote 0x7fa44d6e5dc0>, 'c': <cimpl.Consumer at remote 0x7fa44d6e8540>, 'topic': 'quickstart', 'partition': 0, 'close': True, 'close_consumer': <function at remote 0x7fa44d6e5e50>, 'poll_message': <function at remote 0x7fa44d6e5ee0>, 'poll': <function at remote 0x7fa44d6e5f70>, 'signal_handler': <function at remote 0x7fa44d672040>},
+    locals={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_fast_close.py') at remote 0x7fa44d8834c0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7fa44d85c0e0>, '__file__': 'test_fast_close.py', '__cached__': None, 'signal': <module at remote 0x7fa44d6c76d0>, 'sys': <module at remote 0x7fa44d850e00>, 'time': <module at remote 0x7fa44d842b80>, 'confluent_kafka': <module at remote 0x7fa44d6c78b0>, 'Consumer': <type at remote 0x7fa44d666460>, 'KafkaError': <type at remote 0x7fa44d665e40>, 'on_assign': <function at remote 0x7fa44d83f1f0>, 'err_callback': <function at remote 0x7fa44d6e5dc0>, 'c': <cimpl.Consumer at remote 0x7fa44d6e8540>, 'topic': 'quickstart', 'partition': 0, 'close': True, 'close_consumer': <function at remote 0x7fa44d6e5e50>, 'poll_message': <function at remote 0x7fa44d6e5ee0>, 'poll': <function at remote 0x7fa44d6e5f70>, 'signal_handler': <function at remote 0x7fa44d672040>},
+    flags=<optimized out>, arena=<optimized out>) at ../Python/pythonrun.c:1188
+#42 0x000000000067fa71 in pyrun_file (fp=fp@entry=0x17e6c80, filename=filename@entry='test_fast_close.py', start=start@entry=257,
+    globals=globals@entry={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_fast_close.py') at remote 0x7fa44d8834c0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7fa44d85c0e0>, '__file__': 'test_fast_close.py', '__cached__': None, 'signal': <module at remote 0x7fa44d6c76d0>, 'sys': <module at remote 0x7fa44d850e00>, 'time': <module at remote 0x7fa44d842b80>, 'confluent_kafka': <module at remote 0x7fa44d6c78b0>, 'Consumer': <type at remote 0x7fa44d666460>, 'KafkaError': <type at remote 0x7fa44d665e--Type <RET> for more, q to quit, c to continue without paging--
+40>, 'on_assign': <function at remote 0x7fa44d83f1f0>, 'err_callback': <function at remote 0x7fa44d6e5dc0>, 'c': <cimpl.Consumer at remote 0x7fa44d6e8540>, 'topic': 'quickstart', 'partition': 0, 'close': True, 'close_consumer': <function at remote 0x7fa44d6e5e50>, 'poll_message': <function at remote 0x7fa44d6e5ee0>, 'poll': <function at remote 0x7fa44d6e5f70>, 'signal_handler': <function at remote 0x7fa44d672040>},
+    locals=locals@entry={'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <SourceFileLoader(name='__main__', path='test_fast_close.py') at remote 0x7fa44d8834c0>, '__spec__': None, '__annotations__': {}, '__builtins__': <module at remote 0x7fa44d85c0e0>, '__file__': 'test_fast_close.py', '__cached__': None, 'signal': <module at remote 0x7fa44d6c76d0>, 'sys': <module at remote 0x7fa44d850e00>, 'time': <module at remote 0x7fa44d842b80>, 'confluent_kafka': <module at remote 0x7fa44d6c78b0>, 'Consumer': <type at remote 0x7fa44d666460>, 'KafkaError': <type at remote 0x7fa44d665e40>, 'on_assign': <function at remote 0x7fa44d83f1f0>, 'err_callback': <function at remote 0x7fa44d6e5dc0>, 'c': <cimpl.Consumer at remote 0x7fa44d6e8540>, 'topic': 'quickstart', 'partition': 0, 'close': True, 'close_consumer': <function at remote 0x7fa44d6e5e50>, 'poll_message': <function at remote 0x7fa44d6e5ee0>, 'poll': <function at remote 0x7fa44d6e5f70>, 'signal_handler': <function at remote 0x7fa44d672040>}, closeit=closeit@entry=1, flags=0x7ffd085a4c98) at ../Python/pythonrun.c:1085
+#43 0x0000000000681b97 in pyrun_simple_file (flags=0x7ffd085a4c98, closeit=1, filename='test_fast_close.py', fp=0x17e6c80) at ../Python/pythonrun.c:439
+#44 PyRun_SimpleFileExFlags (fp=0x17e6c80, filename=<optimized out>, closeit=1, flags=0x7ffd085a4c98) at ../Python/pythonrun.c:472
+#45 0x00000000006b9d32 in pymain_run_file (cf=0x7ffd085a4c98, config=0x17e7370) at ../Modules/main.c:385
+#46 pymain_run_python (exitcode=0x7ffd085a4c90) at ../Modules/main.c:610
+#47 Py_RunMain () at ../Modules/main.c:689
+#48 0x00000000006ba0bd in Py_BytesMain (argc=<optimized out>, argv=<optimized out>) at ../Modules/main.c:743
+#49 0x00007fa44e3300b3 in __libc_start_main (main=0x4efd60 <main>, argc=2, argv=0x7ffd085a4e78, init=<optimized out>, fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7ffd085a4e68)
+    at ../csu/libc-start.c:308
+#50 0x00000000005fc5fe in _start () at ../Objects/obmalloc.c:1247
